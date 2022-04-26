@@ -6,6 +6,7 @@ export function Navbar() {
       <div>
         <img className="navbar-img" alt="pokeapi-logo" src={logoImg} />
       </div>
+      <div>❤️</div>
     </nav>
   );
 }
