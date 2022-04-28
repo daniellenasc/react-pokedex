@@ -13,6 +13,7 @@ function App() {
   const [totalPages, setTotalPages] = useState(0);
   const [favorites, setFavorites] = useState([]);
   const itensPerPage = 25;
+  const favoritesKey = "f";
 
   async function fetchPokemons() {
     try {
@@ -30,8 +31,17 @@ function App() {
     }
   }
 
+  function loadFavoritePokemons() {
+    const pokemons =
+      JSON.parse(window.localStorage.getItem(favoritesKey)) || [];
+    setFavorites(pokemons);
+  }
+
   useEffect(() => {
-    //console.log("carregou");
+    loadFavoritePokemons();
+  }, []);
+
+  useEffect(() => {
     fetchPokemons();
   }, [page]);
 
@@ -43,6 +53,7 @@ function App() {
     } else {
       updatedFavorites.push(name);
     }
+    window.localStorage.setItem(favoritesKey, JSON.stringify(updatedFavorites));
     setFavorites(updatedFavorites);
   }
 
