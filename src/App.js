@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getPokemons, getPokemonData } from "./api";
+import { getPokemons, getPokemonData, searchPokemon } from "./api";
 import "./App.css";
 import { Navbar } from "./components/Navbar";
 import { Pokedex } from "./components/Pokedex";
@@ -12,12 +12,14 @@ function App() {
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [favorites, setFavorites] = useState([]);
+  const [notFound, setNotFound] = useState(false);
   const itensPerPage = 25;
   const favoritesKey = "f";
 
   async function fetchPokemons() {
     try {
       setLoading(true);
+      setNotFound(false);
       const data = await getPokemons(itensPerPage, itensPerPage * page);
       const promises = data.results.map(async (pokemon) => {
         return await getPokemonData(pokemon.url);
@@ -57,6 +59,24 @@ function App() {
     setFavorites(updatedFavorites);
   }
 
+  async function onSearchHandler(pokemon) {
+    if (!pokemon) {
+      return fetchPokemons();
+    }
+    setLoading(true);
+    setNotFound(false);
+    const result = await searchPokemon(pokemon);
+    if (!result) {
+      setLoading(false);
+      setNotFound(true);
+    } else {
+      setPokemons([result]);
+      setPage(0);
+      setTotalPages(1);
+    }
+    setLoading(false);
+  }
+
   return (
     <FavoriteProvider
       value={{
@@ -66,14 +86,18 @@ function App() {
     >
       <div>
         <Navbar />
-        <Searchbar />
-        <Pokedex
-          pokemons={pokemons}
-          loading={loading}
-          page={page}
-          totalPages={totalPages}
-          setPage={setPage}
-        />
+        <Searchbar onSearch={onSearchHandler} />
+        {notFound ? (
+          <div className="not-found-txt"> Pokemon not found </div>
+        ) : (
+          <Pokedex
+            pokemons={pokemons}
+            loading={loading}
+            page={page}
+            totalPages={totalPages}
+            setPage={setPage}
+          />
+        )}
       </div>
     </FavoriteProvider>
   );
