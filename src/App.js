@@ -13,7 +13,7 @@ function App() {
   const [totalPages, setTotalPages] = useState(0);
   const [favorites, setFavorites] = useState([]);
   const [notFound, setNotFound] = useState(false);
-  const itensPerPage = 25;
+  const itensPerPage = 24;
   const favoritesKey = "f";
 
   async function fetchPokemons() {
