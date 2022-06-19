@@ -18,7 +18,7 @@ Pokedex App made with React JS, Hooks, consuming the pokeapi and using localstor
 To run the application on your local machine you need to clone the repository and execute the commands below:
 
 ```
-$ git clone https://github.com/viniciuspasquantonio/pokedex-reac.git
+$ git clone https://github.com/daniellenasc/react-pokedex.git
 $ cd react-todolist
 $ npm install
 $ npm start
