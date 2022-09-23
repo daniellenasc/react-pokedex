@@ -19,7 +19,6 @@ To run the application on your local machine you need to clone the repository an
 
 ```
 $ git clone https://github.com/daniellenasc/react-pokedex.git
-$ cd react-todolist
 $ npm install
 $ npm start
 ```
